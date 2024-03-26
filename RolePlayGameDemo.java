@@ -78,17 +78,25 @@ public class RolePlayGameDemo {
                         break;
                 }
             }
-            if (playerOneHealth<=0){
-                System.out.println(playerTwoName + " ПОБЕДИЛ(A)!!!");
+            if (playerTwoHealth<=0 & playerOneHealth<=0) {
+                System.out.println("TIE");
+                playerTwoHealth = 0;
                 playerOneHealth = 0;
                 System.out.println(playerOneName + " has " + playerOneHealth + " health");
                 System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
+            
             }else if (playerTwoHealth<=0) {
                 System.out.println(playerTwoName + " ПОБЕДИЛ(A)!!!");
                 playerTwoHealth = 0;
                 System.out.println(playerOneName + " has " + playerOneHealth + " health");
                 System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
-            }else {
+            }else if (playerOneHealth<=0){
+                System.out.println(playerTwoName + " WINNER!!!");
+                playerOneHealth = 0;
+                System.out.println(playerOneName + " has " + playerOneHealth + " health");
+                System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
+            }
+            else {
                 System.out.println(playerOneName + " has " + playerOneHealth + " health");
                 System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
             }
