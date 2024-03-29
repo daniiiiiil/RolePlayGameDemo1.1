@@ -24,82 +24,102 @@ public class RolePlayGameDemo {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(HELLO_MESSAGE);
-
-        System.out.println(PLAYER_ONE + NAME_MESSAGE);
-        playerOneName = scanner.nextLine();
-        System.out.println(PLAYER_TWO + NAME_MESSAGE);
-        playerTwoName = scanner.nextLine();
+        playerOneName = String.valueOf(playerName(scanner, PLAYER_ONE, NAME_MESSAGE));
+        playerTwoName = String.valueOf(playerName(scanner, PLAYER_TWO, NAME_MESSAGE));
 
 
         System.out.println(playerOneName + " vs " + playerTwoName);
 
         while (playerOneHealth > 0 & playerTwoHealth > 0) {
 
-            System.out.println(playerOneName + " " + KICK_TURN);
-            playerOneKick = scanner.nextInt();
-            System.out.println(playerOneName + " " + BLOCK_TURN);
-            playerOneBlock = scanner.nextInt();
-
-            System.out.println(playerTwoName + " " + KICK_TURN);
-            playerTwoKick = scanner.nextInt();
-            System.out.println(playerTwoName + " " + BLOCK_TURN);
-            playerTwoBlock = scanner.nextInt();
+            playerOneKick = getActionValue(scanner, playerOneName, KICK_TURN);
+            playerOneBlock = getActionValue(scanner, playerTwoName, BLOCK_TURN);
+            playerTwoKick = getActionValue(scanner, playerTwoName, KICK_TURN);
+            playerTwoBlock = getActionValue(scanner, playerTwoName, BLOCK_TURN);
 
 
             System.out.println(playerOneName + " kick: " + playerOneKick + " block " + playerOneBlock);
             System.out.println(playerTwoName + " kick: " + playerTwoKick + " block " + playerTwoBlock);
 
+            checkFirstPlayerKickAndSecondPlayerBlock(playerOneKick, playerTwoBlock);
+            checkSecondPlayerKickAndFirstPlayerBlock(playerTwoKick, playerOneBlock);
 
-            if (playerOneKick != playerTwoBlock) {
-                switch (playerOneKick) {
-                    case 1:
-                        playerTwoHealth -= HIGH_KICK_DAMAGE;
-                        break;
-                    case 2:
-                        playerTwoHealth -= MIDDLE_KICK_DAMAGE;
-                        break;
-                    case 3:
-                        playerTwoHealth -= LOW_KICK_DAMAGE;
-                        break;
-                }
-            }
+            winnerChecker(playerOneHealth, playerTwoHealth);
+        }
+    }
 
-            if (playerTwoKick != playerOneBlock) {
-                switch (playerTwoKick) {
-                    case 1:
-                        playerOneHealth -= HIGH_KICK_DAMAGE;
-                        break;
-                    case 2:
-                        playerOneHealth -= MIDDLE_KICK_DAMAGE;
-                        break;
-                    case 3:
-                        playerOneHealth -= LOW_KICK_DAMAGE;
-                        break;
-                }
-            }
-            if (playerTwoHealth<=0 & playerOneHealth<=0) {
-                System.out.println("TIE");
-                playerTwoHealth = 0;
-                playerOneHealth = 0;
-                System.out.println(playerOneName + " has " + playerOneHealth + " health");
-                System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
-            
-            }else if (playerTwoHealth<=0) {
-                System.out.println(playerTwoName + " ПОБЕДИЛ(A)!!!");
-                playerTwoHealth = 0;
-                System.out.println(playerOneName + " has " + playerOneHealth + " health");
-                System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
-            }else if (playerOneHealth<=0){
-                System.out.println(playerTwoName + " WINNER!!!");
-                playerOneHealth = 0;
-                System.out.println(playerOneName + " has " + playerOneHealth + " health");
-                System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
-            }
-            else {
-                System.out.println(playerOneName + " has " + playerOneHealth + " health");
-                System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
+    public static void printPlayerNameAndTurn(String playerName, String turn) {
+        System.out.println(playerName + " " + turn);
+    }
+
+    public static int getActionValue(Scanner scanner, String playerName, String turn) {
+        printPlayerNameAndTurn(playerName, turn);
+        return scanner.nextInt();
+    }
+
+    public static void checkFirstPlayerKickAndSecondPlayerBlock(int playerOneKick, int playerTwoBlock) {
+        if (playerOneKick != playerTwoBlock) {
+            switch (playerOneKick) {
+                case 1:
+                    playerTwoHealth -= HIGH_KICK_DAMAGE;
+                    break;
+                case 2:
+                    playerTwoHealth -= MIDDLE_KICK_DAMAGE;
+                    break;
+                case 3:
+                    playerTwoHealth -= LOW_KICK_DAMAGE;
+                    break;
             }
         }
+    }
+
+    public static void checkSecondPlayerKickAndFirstPlayerBlock(int playerTwoKick, int playerOneBlock) {
+        if (playerTwoKick != playerOneBlock) {
+            switch (playerTwoKick) {
+                case 1:
+                    playerOneHealth -= HIGH_KICK_DAMAGE;
+                    break;
+                case 2:
+                    playerOneHealth -= MIDDLE_KICK_DAMAGE;
+                    break;
+                case 3:
+                    playerOneHealth -= LOW_KICK_DAMAGE;
+                    break;
+            }
+        }
+    }
+
+    public static void winnerChecker(int playerOneHealth, int playerTwoHeatlth) {
+        if (playerTwoHealth <= 0 & playerOneHealth <= 0) {
+            System.out.println("TIE");
+            playerTwoHealth = 0;
+            playerOneHealth = 0;
+            System.out.println(playerOneName + " has " + playerOneHealth + " health");
+            System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
+
+        } else if (playerTwoHealth <= 0) {
+            System.out.println(playerOneName + " WINNER!!!");
+            playerTwoHealth = 0;
+            System.out.println(playerOneName + " has " + playerOneHealth + " health");
+            System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
+        } else if (playerOneHealth <= 0) {
+            System.out.println(playerTwoName + " WINNER!!!");
+            playerOneHealth = 0;
+            System.out.println(playerOneName + " has " + playerOneHealth + " health");
+            System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
+        } else {
+            System.out.println(playerOneName + " has " + playerOneHealth + " health");
+            System.out.println(playerTwoName + " has " + playerTwoHealth + " health");
+        }
+    }
+
+    public static String playerName(Scanner scanner, String Player, String Message) {
+        getPlayerName(Player, Message);
+        return scanner.next();
+    }
+
+
+    public static void getPlayerName(String Player, String Message) {
+        System.out.println(Player + Message);
     }
 }
